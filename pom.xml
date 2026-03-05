@@ -12,7 +12,7 @@
     </parent>
 
     <groupId>habsida</groupId>
-    <artifactId>spring-boot-rest-bakckend</artifactId>
+    <artifactId>spring-boot-rest-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>spring-boot-rest-backend</name>
     <description>Backend Project for Spring Boot REST</description>
