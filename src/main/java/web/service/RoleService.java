@@ -2,6 +2,7 @@ package web.service;
 
 import org.springframework.stereotype.Service;
 import web.entity.Role;
+import web.exception.RoleNotFoundException;
 import web.repository.RoleRepository;
 
 @Service
@@ -15,6 +16,6 @@ public class RoleService {
 
     public Role getRoleById(Long roleId) {
         return roleRepository.findById(roleId)
-                .orElseThrow(() -> new RuntimeException("Role not found"));
+                .orElseThrow(() -> new RoleNotFoundException("Role not found"));
     }
 }

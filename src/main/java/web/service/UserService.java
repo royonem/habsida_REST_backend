@@ -8,6 +8,7 @@ import web.dto.UpdateUserDTO;
 import web.dto.UserResponseDTO;
 import web.entity.Role;
 import web.entity.User;
+import web.exception.UserNotFoundException;
 import web.mapper.UserMapper;
 import web.repository.RoleRepository;
 import web.repository.UserRepository;
@@ -48,7 +49,7 @@ public class UserService {
     @Transactional
     public void editUser(UpdateUserDTO dto) {
         User user = userRepository.findById(dto.getId())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
         userMapper.updateUserFromDto(dto, user);
         if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
             user.setPassword(passwordEncoder.encode(dto.getPassword()));
@@ -63,9 +64,7 @@ public class UserService {
     public void updateRolesByIds(User user, List<Long> roleIds) {
         user.getRoles().clear();
         for (Long roleId : roleIds) {
-            Role role = roleRepository.findById(roleId)
-                    .orElseThrow(() -> new RuntimeException("Role not found"));
-            user.getRoles().add(role);
+            user.getRoles().add(roleService.getRoleById(roleId));
         }
     }
 
@@ -77,13 +76,13 @@ public class UserService {
 
     public UserResponseDTO getUserById(Long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
         return userMapper.toResponseDto(user);
     }
 
     public UserResponseDTO getUserByUsername(String username) {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
         return userMapper.toResponseDto(user);
     }
 
