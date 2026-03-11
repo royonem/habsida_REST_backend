@@ -8,6 +8,8 @@ import web.dto.UpdateUserDTO;
 import web.dto.UserResponseDTO;
 import web.entity.Role;
 import web.entity.User;
+import web.exception.DuplicateUsernameException;
+import web.exception.RoleNotFoundException;
 import web.exception.UserNotFoundException;
 import web.mapper.UserMapper;
 import web.repository.RoleRepository;
@@ -33,12 +35,12 @@ public class UserService {
 
     public void createUser(CreateUserDTO dto) {
         if (userRepository.existsByUsername(dto.getUsername())) {
-            throw new RuntimeException("Username already taken");
+            throw new DuplicateUsernameException("Username already taken");
         }
         User user = userMapper.createUserFromDto(dto);
 
         Role defaultRole = roleRepository.findByName("ROLE_USER")
-                .orElseThrow(() -> new RuntimeException("Default role not found"));
+                .orElseThrow(() -> new RoleNotFoundException("Default role not found"));
         if (user.getRoles().isEmpty()) {
             user.getRoles().add(defaultRole);
         }
