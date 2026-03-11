@@ -1,5 +1,6 @@
 package web.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import web.dto.CreateUserDTO;
 import web.dto.UpdateUserDTO;
@@ -23,12 +24,12 @@ public class AdminController {
     }
 
     @PostMapping("/users")
-    public void createUser(@RequestBody CreateUserDTO dto) {
+    public void createUser(@Valid @RequestBody CreateUserDTO dto) {
         userService.createUser(dto);
     }
 
     @PatchMapping("/users/{id}")
-    public void updateUser(@PathVariable Long id, @RequestBody UpdateUserDTO dto) {
+    public void updateUser(@Valid @PathVariable Long id, @RequestBody UpdateUserDTO dto) {
         dto.setId(id);
         userService.editUser(dto);
     }

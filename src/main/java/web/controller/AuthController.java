@@ -1,5 +1,6 @@
 package web.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +25,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public void register(@RequestBody CreateUserDTO dto) {
+    public void register(@Valid @RequestBody CreateUserDTO dto) {
         authService.register(dto);
     }
 
