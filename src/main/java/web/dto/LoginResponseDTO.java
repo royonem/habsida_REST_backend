@@ -7,9 +7,10 @@ public class LoginResponseDTO {
     private Set<String> roleNames;
     private String token;
 
-    public LoginResponseDTO(String username, String token) {
+    public LoginResponseDTO(String username, String token, Set<String> roleNames) {
         this.username = username;
         this.token = token;
+        this.roleNames = roleNames;
     }
 
     // getters and setters
