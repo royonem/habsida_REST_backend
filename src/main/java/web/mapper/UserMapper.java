@@ -19,7 +19,6 @@ public interface UserMapper {
     void updateUserFromDto(UpdateUserDTO dto, @MappingTarget User user);
 
     @Mapping(target = "roleNames", source = "roles")
-    @Mapping(target = "roleIds", source = "roles")
     UserResponseDTO toResponseDto(User user);
 
     List<UserResponseDTO> toResponseDto(List<User> users);
