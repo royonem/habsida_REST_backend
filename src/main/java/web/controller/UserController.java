@@ -1,5 +1,6 @@
 package web.controller;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import web.dto.UserResponseDTO;
 import web.service.UserService;
@@ -14,8 +15,8 @@ public class UserController {
     }
 
     @GetMapping("/view")
-    public UserResponseDTO userView(@RequestParam Long userId) {
-        return userService.getUserById(userId);
+    public UserResponseDTO userView(Authentication authentication) {
+        return userService.getUserByUsername(authentication.getName());
     }
 
 }
