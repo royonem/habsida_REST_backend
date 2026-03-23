@@ -1,7 +1,6 @@
 package web.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import web.enums.Country;
 import web.enums.Gender;
@@ -23,9 +22,7 @@ public class CreateUserDTO {
     private String password;
     @NotBlank(message = "Please confirm your password")
     private String confirmPassword;
-    @NotEmpty(message = "User must have at least one role")
     private Set<Role> roles;
-
 
     // getters and setters
     public Long getId() {
