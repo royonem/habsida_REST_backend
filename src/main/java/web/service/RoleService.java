@@ -5,6 +5,8 @@ import web.entity.Role;
 import web.exception.RoleNotFoundException;
 import web.repository.RoleRepository;
 
+import java.util.List;
+
 @Service
 public class RoleService {
     private final RoleRepository roleRepository;
@@ -17,5 +19,12 @@ public class RoleService {
     public Role getRoleById(Long roleId) {
         return roleRepository.findById(roleId)
                 .orElseThrow(() -> new RoleNotFoundException("Role not found"));
+    }
+
+    public List<String> getRoleNames() {
+        return roleRepository.findAll()
+                .stream()
+                .map(Role::getName)
+                .toList();
     }
 }
