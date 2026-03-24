@@ -3,8 +3,8 @@ package web.service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import web.dto.CreateUserDTO;
-import web.dto.UpdateUserDTO;
+import web.dto.admin.CreateUserDTO;
+import web.dto.admin.UpdateUserDTO;
 import web.dto.UserResponseDTO;
 import web.entity.Role;
 import web.entity.User;
@@ -38,12 +38,6 @@ public class UserService {
             throw new DuplicateUsernameException("Username already taken");
         }
         User user = userMapper.createUserFromDto(dto);
-
-        Role defaultRole = roleRepository.findByName("ROLE_USER")
-                .orElseThrow(() -> new RoleNotFoundException("Default role not found"));
-        if (user.getRoles().isEmpty()) {
-            user.getRoles().add(defaultRole);
-        }
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         userRepository.save(user);
     }

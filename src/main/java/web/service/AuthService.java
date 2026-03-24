@@ -5,11 +5,19 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import web.dto.CreateUserDTO;
-import web.dto.LoginRequestDTO;
-import web.dto.LoginResponseDTO;
+import web.dto.auth.LoginRequestDTO;
+import web.dto.auth.LoginResponseDTO;
+import web.dto.auth.RegisterUserDTO;
+import web.entity.Role;
+import web.entity.User;
+import web.exception.DuplicateUsernameException;
+import web.exception.RoleNotFoundException;
 import web.exception.UserNotFoundException;
+import web.mapper.UserMapper;
+import web.repository.RoleRepository;
+import web.repository.UserRepository;
 import web.security.JwtProvider;
 import web.security.UserPrincipal;
 import java.util.Set;
@@ -19,13 +27,19 @@ import java.util.stream.Collectors;
 public class AuthService {
 
     private final AuthenticationManager authenticationManager;
-    private final UserService userService;
+    private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
+    private final UserMapper userMapper;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public AuthService(AuthenticationManager authenticationManager, UserService userService, JwtProvider jwtProvider) {
+    public AuthService(AuthenticationManager authenticationManager, UserRepository userRepository, JwtProvider jwtProvider, UserMapper userMapper, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.authenticationManager = authenticationManager;
-        this.userService = userService;
+        this.userRepository = userRepository;
         this.jwtProvider = jwtProvider;
+        this.userMapper = userMapper;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public LoginResponseDTO login(LoginRequestDTO request) {
@@ -56,8 +70,18 @@ public class AuthService {
         return new LoginResponseDTO(principal.getUsername(), token, roleNames);
     }
 
-    public void register(CreateUserDTO dto) {
-        userService.createUser(dto);
+    public void register(RegisterUserDTO dto) {
+        if (userRepository.existsByUsername(dto.getUsername())) {
+            throw new DuplicateUsernameException("Username already taken");
+        }
+        User user = userMapper.createUserFromDto(dto);
+
+        Role defaultRole = roleRepository.findByName("ROLE_USER")
+                .orElseThrow(() -> new RoleNotFoundException("Default role not found"));
+        if (user.getRoles().isEmpty()) {
+            user.getRoles().add(defaultRole);
+        }
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
     }
 
 }

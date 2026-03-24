@@ -1,4 +1,4 @@
-package web.dto;
+package web.dto.auth;
 
 import java.util.Set;
 

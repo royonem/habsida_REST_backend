@@ -3,9 +3,10 @@ package web.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import web.dto.CreateUserDTO;
-import web.dto.UpdateUserDTO;
+import web.dto.admin.CreateUserDTO;
+import web.dto.admin.UpdateUserDTO;
 import web.dto.UserResponseDTO;
+import web.dto.auth.RegisterUserDTO;
 import web.entity.Role;
 import web.entity.User;
 import java.util.List;
@@ -14,6 +15,8 @@ import java.util.Set;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
     User createUserFromDto(CreateUserDTO dto);
+
+    User createUserFromDto(RegisterUserDTO dto);
 
     @Mapping(target = "password", ignore = true)
     void updateUserFromDto(UpdateUserDTO dto, @MappingTarget User user);

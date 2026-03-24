@@ -1,4 +1,4 @@
-package web.dto;
+package web.dto.admin;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;

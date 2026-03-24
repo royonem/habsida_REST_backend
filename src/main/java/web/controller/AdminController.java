@@ -2,8 +2,8 @@ package web.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
-import web.dto.CreateUserDTO;
-import web.dto.UpdateUserDTO;
+import web.dto.admin.CreateUserDTO;
+import web.dto.admin.UpdateUserDTO;
 import web.dto.UserResponseDTO;
 import web.service.UserService;
 import java.util.List;

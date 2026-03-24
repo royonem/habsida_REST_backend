@@ -1,10 +1,11 @@
 package web.controller;
 
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import web.dto.CreateUserDTO;
-import web.dto.LoginRequestDTO;
-import web.dto.LoginResponseDTO;
+import web.dto.auth.LoginRequestDTO;
+import web.dto.auth.LoginResponseDTO;
+import web.dto.auth.RegisterUserDTO;
 import web.service.AuthService;
 
 @RestController
@@ -22,7 +23,8 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public void register(@Valid @RequestBody CreateUserDTO dto) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public void register(@Valid @RequestBody RegisterUserDTO dto) {
         authService.register(dto);
     }
 

@@ -1,4 +1,4 @@
-package web.dto;
+package web.dto.auth;
 
 public class LoginRequestDTO {
     private String username;
