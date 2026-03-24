@@ -6,13 +6,10 @@ import org.springframework.transaction.annotation.Transactional;
 import web.dto.admin.CreateUserDTO;
 import web.dto.admin.UpdateUserDTO;
 import web.dto.UserResponseDTO;
-import web.entity.Role;
 import web.entity.User;
 import web.exception.DuplicateUsernameException;
-import web.exception.RoleNotFoundException;
 import web.exception.UserNotFoundException;
 import web.mapper.UserMapper;
-import web.repository.RoleRepository;
 import web.repository.UserRepository;
 import java.util.List;
 
@@ -44,6 +41,13 @@ public class UserService {
     public void editUser(UpdateUserDTO dto) {
         User user = userRepository.findById(dto.getId())
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
+        String newUsername = dto.getUsername();
+        String oldUsername = user.getUsername();
+        if (newUsername != null
+                && !newUsername.equals(oldUsername)
+                && userRepository.existsByUsername(newUsername)) {
+            throw new DuplicateUsernameException("Username already taken");
+        }
         userMapper.updateUserFromDto(dto, user);
         if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
             user.setPassword(passwordEncoder.encode(dto.getPassword()));
