@@ -28,6 +28,11 @@ public class AdminController {
         userService.createUser(dto);
     }
 
+    @GetMapping("/users/{id}")
+    public UserResponseDTO getUser(@PathVariable Long id) {
+        return userService.getUserById(id);
+    }
+
     @PatchMapping("/users/{id}")
     public void updateUser(@Valid @PathVariable Long id, @RequestBody UpdateUserDTO dto) {
         dto.setId(id);
