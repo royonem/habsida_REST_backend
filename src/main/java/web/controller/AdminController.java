@@ -1,6 +1,7 @@
 package web.controller;
 
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import web.dto.admin.CreateUserDTO;
 import web.dto.admin.UpdateUserDTO;
@@ -24,6 +25,7 @@ public class AdminController {
     }
 
     @PostMapping("/users")
+    @ResponseStatus(HttpStatus.CREATED)
     public void createUser(@Valid @RequestBody CreateUserDTO dto) {
         userService.createUser(dto);
     }
@@ -40,6 +42,7 @@ public class AdminController {
     }
 
     @DeleteMapping("/users/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
     }
