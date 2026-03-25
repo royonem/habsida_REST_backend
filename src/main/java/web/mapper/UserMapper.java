@@ -14,8 +14,10 @@ import java.util.Set;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
+    @Mapping(target = "username", expression = "java(trimUsername(dto.getUsername()))")
     User createUserFromDto(CreateUserDTO dto);
 
+    @Mapping(target = "username", expression = "java(trimUsername(dto.getUsername()))")
     User createUserFromDto(RegisterUserDTO dto);
 
     @Mapping(target = "password", ignore = true)
@@ -31,5 +33,9 @@ public interface UserMapper {
         return roles.stream()
                 .map(role -> role.getName().replace("ROLE_", ""))
                 .toList();
+    }
+
+    default String trimUsername(String username) {
+        return username == null ? null : username.trim();
     }
 }
