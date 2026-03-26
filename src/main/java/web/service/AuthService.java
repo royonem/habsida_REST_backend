@@ -82,6 +82,7 @@ public class AuthService {
             user.getRoles().add(defaultRole);
         }
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        userRepository.save(user);
     }
 
 }
