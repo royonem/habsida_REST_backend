@@ -27,4 +27,8 @@ public class RoleService {
                 .map(Role::getName)
                 .toList();
     }
+
+    public List<Role> getAllRoles() {
+        return roleRepository.findAll();
+    }
 }
