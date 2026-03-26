@@ -3,6 +3,7 @@ package web.controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import web.entity.Role;
 import web.enums.Country;
 import web.enums.Gender;
 import web.service.RoleService;
@@ -33,7 +34,7 @@ public class MetaController {
     }
 
     @GetMapping("/roles")
-    public List<String> getRoleNames() {
-        return roleService.getRoleNames();
+    public List<Role> getRoles() {
+        return roleService.getAllRoles();
     }
 }
