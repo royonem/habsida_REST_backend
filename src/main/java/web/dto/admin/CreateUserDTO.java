@@ -6,6 +6,7 @@ import web.enums.Country;
 import web.enums.Gender;
 import web.entity.Role;
 
+import java.util.List;
 import java.util.Set;
 
 public class CreateUserDTO {
@@ -23,6 +24,7 @@ public class CreateUserDTO {
     @NotBlank(message = "Please confirm your password")
     private String confirmPassword;
     private Set<Role> roles;
+    private List<Long> roleIds;
 
     // getters and setters
     public Long getId() {
@@ -87,5 +89,13 @@ public class CreateUserDTO {
 
     public void setConfirmPassword(@NotBlank(message = "Please confirm your password") String confirmPassword) {
         this.confirmPassword = confirmPassword;
+    }
+
+    public List<Long> getRoleIds() {
+        return roleIds;
+    }
+
+    public void setRoleIds(List<Long> roleIds) {
+        this.roleIds = roleIds;
     }
 }

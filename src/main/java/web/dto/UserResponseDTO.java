@@ -11,6 +11,7 @@ public class UserResponseDTO {
     private Gender gender;
     private Country country;
     private List<String> roleNames;
+    private List<Long> roleIds;
 
     // getters and setters
     public Long getId() {
@@ -59,5 +60,12 @@ public class UserResponseDTO {
 
     public void setRoleNames(List<String> roleNames) {
         this.roleNames = roleNames;
+    }
+
+    public List<Long> getRoleIds() {
+        return roleIds;
+    }
+    public void setRoleIds(List<Long> roleIds) {
+        this.roleIds = roleIds;
     }
 }

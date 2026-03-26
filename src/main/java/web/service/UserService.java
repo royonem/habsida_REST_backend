@@ -10,6 +10,7 @@ import web.entity.User;
 import web.exception.DuplicateUsernameException;
 import web.exception.UserNotFoundException;
 import web.mapper.UserMapper;
+import web.repository.RoleRepository;
 import web.repository.UserRepository;
 import java.util.List;
 
@@ -20,19 +21,21 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final RoleService roleService;
+    private final RoleRepository roleRepository;
 
-    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository, UserMapper userMapper, RoleService roleService) {
+    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository, UserMapper userMapper, RoleService roleService, RoleRepository roleRepository) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.roleService = roleService;
+        this.roleRepository = roleRepository;
     }
 
     public void createUser(CreateUserDTO dto) {
         if (userRepository.existsByUsername(dto.getUsername())) {
             throw new DuplicateUsernameException("Username already taken");
         }
-        User user = userMapper.createUserFromDto(dto);
+        User user = userMapper.createUserFromDto(dto, roleRepository);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         userRepository.save(user);
     }
